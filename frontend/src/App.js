@@ -28,42 +28,62 @@
 // frontend/src/App.js
 
 import React, { Component } from "react";
-const todoItems = [
-  {
-    id: 1,
-    title: "Go to Market",
-    description: "Buy ingredients to prepare dinner",
-    completed: true
-  },
-  {
-    id: 2,
-    title: "Study",
-    description: "Read Algebra and History textbook for upcoming test",
-    completed: false
-  },
-  {
-    id: 3,
-    title: "Sally's books",
-    description: "Go to library to rent sally's books",
-    completed: true
-  },
-  {
-    id: 4,
-    title: "Article",
-    description: "Write article on how to use django with react",
-    completed: false
-  }
-];
+import Modal from "./components/Modal";
+import axios from "axios";
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // modal: false,
       viewCompleted: false,
-      todoList: todoItems
+      activeItem: {
+        id: 0,
+        name: "",
+        description: "",
+        trust_index: 0.00
+      },
+      countryList: []
     };
   }
-  displayCompleted = status => {
-    if (status) {
+  componentDidMount() {
+    this.refreshList();
+  }
+  refreshList = () => {
+    axios
+      .get("http://localhost:8000/api/country/")
+      .then(res => this.setState({ countryList: res.data }))
+      .catch(err => console.log(err));
+  };
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+  handleSubmit = item => {
+    this.toggle();
+    if (item.id > 0) {
+      axios
+        .put(`http://localhost:8000/api/country/${item.id}/`, item)
+        .then(res => this.refreshList());
+      return;
+    }
+    axios
+      .post("http://localhost:8000/api/country/", item)
+      .then(res => this.refreshList());
+  };
+  handleDelete = item => {
+    axios
+      .delete(`http://localhost:8000/api/country/${item.id}`)
+      .then(res => this.refreshList());
+  };
+  createItem = () => {
+    const item = { id: 0, name: "", description: "", trust_index: 0.00 };
+    this.setState({ activeItem: item, modal: !this.state.modal });
+  };
+  editItem = item => {
+    this.setState({ activeItem: item, modal: !this.state.modal });
+  };
+  displayCountry = id => {
+    if (id) {
       return this.setState({ viewCompleted: true });
     }
     return this.setState({ viewCompleted: false });
@@ -72,13 +92,13 @@ class App extends Component {
     return (
       <div className="my-5 tab-list">
         <span
-          onClick={() => this.displayCompleted(true)}
+          onClick={() => this.displayCountry(true)}
           className={this.state.viewCompleted ? "active" : ""}
         >
           complete
         </span>
         <span
-          onClick={() => this.displayCompleted(false)}
+          onClick={() => this.displayCountry(false)}
           className={this.state.viewCompleted ? "" : "active"}
         >
           Incomplete
@@ -87,9 +107,9 @@ class App extends Component {
     );
   };
   renderItems = () => {
-    const { viewCompleted } = this.state;
-    const newItems = this.state.todoList.filter(
-      item => item.completed === viewCompleted
+    // const { viewCompleted } = this.state;
+    const newItems = this.state.countryList.filter(
+      item => item.id > 0
     );
     return newItems.map(item => (
       <li
@@ -102,11 +122,11 @@ class App extends Component {
           }`}
           title={item.description}
         >
-          {item.title}
+          {item.name}
         </span>
         <span>
-          <button className="btn btn-secondary mr-2"> Edit </button>
-          <button className="btn btn-danger">Delete </button>
+          <button onClick={() => this.editItem(item)} className=" btn btn-secondary mr-2"> Edit </button>
+          <button onClick={() => this.handleDelete(item)} className=" btn btn-danger"> Delete </button>
         </span>
       </li>
     ));
@@ -114,12 +134,12 @@ class App extends Component {
   render() {
     return (
       <main className="content">
-        <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
+        <h1 className="text-white text-center my-4">Country Application</h1>
         <div className="row ">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               <div className="">
-                <button className="btn btn-primary">Add task</button>
+                <button onClick={this.createItem} className="btn btn-primary">Add Country</button>
               </div>
               {this.renderTabList()}
               <ul className="list-group list-group-flush">
@@ -128,6 +148,13 @@ class App extends Component {
             </div>
           </div>
         </div>
+        {this.state.modal ? (
+              <Modal
+                activeItem={this.state.activeItem}
+                toggle={this.toggle}
+                onSave={this.handleSubmit}
+              />
+            ) : null}
       </main>
     );
   }
