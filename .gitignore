@@ -41,3 +41,10 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Miscellaneous
+*.min.css
+*.min.css.map
+*.csv
+*.iml
+*.box
