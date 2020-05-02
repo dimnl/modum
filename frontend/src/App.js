@@ -199,7 +199,7 @@ class App extends Component {
   };
 
   toggleSector = item => {
-    console.log(this.state.sectorsToShow);
+    // console.log(this.state.sectorsToShow);
     const idd = item.id;
     if (this.state.sectorsToShow.filter(item => item.id === idd).length) {
       const items = this.state.sectorsToShow.filter(item => item.id !== idd);
@@ -212,13 +212,13 @@ class App extends Component {
   };
 
   renderItems = () => {
+    const isSectorActive = this.state.sectorList.map(item => (this.state.sectorsToShow.includes(item)));
     return this.state.sectorList.map(item => (
       <li
         key={item.id}
         className="list-group-item d-flex justify-content-between align-items-center"
       >
-        {item.name}
-          <input onClick={() => this.toggleSector(item)} type="checkbox"></input>
+        <button onClick={() => this.toggleSector(item)} type="button" className={`btn ${isSectorActive[item.id - 1] ? "btn-success" : "btn-info"} btn-block`}> {item.name}  </button>
       </li>
     ));
   };
