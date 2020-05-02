@@ -8,12 +8,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #282c34;
 }
+
 .todo-title {
   cursor: pointer;
 }
+
 .completed-todo {
   text-decoration: line-through;
 }
+
 .tab-list > span {
   padding: 5px 8px;
   border: 1px solid #282c34;
