@@ -7,6 +7,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #282c34;
+  /* background-color: #ffffff; */
+}
+
+.navbar-brand {
+  color:grey;
+  font-family: "Raleway";
+  font-style: oblique;
+  font-size: 35px;
+  margin: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+}
+
+#sector-title {
+  font-family: "Lato";
 }
 
 .todo-title {

@@ -171,6 +171,8 @@ import axios from "axios";
 //   }
 // }
 
+import NavBar from "./components/Navbar";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -226,11 +228,11 @@ class App extends Component {
   render() {
     return (
       <main className="content">
-        <h1 className="text-white text-center my-4"> Modum </h1>
-        <div className="row ">
+        <NavBar/>
+        <div className="row">
           <div className="col-sm-3">
-            <div className="card p-3">
-                <h2 className="text-black text-center"> Sectors </h2>
+            <div className="card p-4">
+                <h2 id="sector-title" className="text-black text-center"> Sectors </h2>
               {/* {this.renderTabList()} */}
               <ul className="list-group list-group-flush">
                 {this.renderItems()}
