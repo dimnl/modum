@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 # Country information.
 class Country(models.Model):
     name = models.CharField(max_length=120)
@@ -14,6 +12,13 @@ class Country(models.Model):
 # Sectors information.
 class Sector(models.Model):
     name = models.CharField(max_length=120)
+    description = models.TextField()
+
+    def _str_(self):
+        return self.name
+
+# Measures information.
+class Measure(models.Model):
     description = models.TextField()
 
     def _str_(self):

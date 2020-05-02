@@ -228,7 +228,9 @@ class App extends Component {
   render() {
     return (
       <main className="content">
+
         <NavBar/>
+
         <div className="row">
           <div className="col-sm-3">
             <div className="card p-4">
@@ -240,6 +242,7 @@ class App extends Component {
             </div>
           </div>
         </div>
+
       </main>
     );
   }

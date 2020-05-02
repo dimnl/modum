@@ -21,6 +21,7 @@ from dashboard import views
 router = routers.DefaultRouter()
 router.register(r'country', views.CountryView, 'country')
 router.register(r'sector', views.SectorView, 'sector')
+router.register(r'measure', views.MeasureView, 'measure')
 
 urlpatterns = [
     path('api/', include(router.urls)),
