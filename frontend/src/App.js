@@ -193,13 +193,16 @@ class App extends Component {
       sectorList: [],
       sectorsToShow: [],
       measureList: [],
-      measuresToShow: []
+      measuresToShow: [],
+      countryList: [],
+      countriesToShow: []
     };
   }
 
   componentDidMount() {
     this.refreshSectorList();
     this.refreshMeasureList();
+    this.refreshCountryList();
   }
 
   refreshSectorList = () => {
@@ -216,8 +219,14 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  refreshCountryList = () => {
+    axios
+      .get("http://localhost:8000/api/country/")
+      .then(res => this.setState({ countryList: res.data }))
+      .catch(err => console.log(err));
+  };
+
   toggleSector = item => {
-    // console.log(this.state.sectorsToShow);
     const idd = item.id;
     if (this.state.sectorsToShow.filter(item => item.id === idd).length) {
       const items = this.state.sectorsToShow.filter(item => item.id !== idd);
@@ -230,7 +239,6 @@ class App extends Component {
   };
 
   toggleMeasure = item => {
-    // console.log(this.state.sectorsToShow);
     const idd = item.id;
     if (this.state.measuresToShow.filter(item => item.id === idd).length) {
       const items = this.state.measuresToShow.filter(item => item.id !== idd);
@@ -239,6 +247,18 @@ class App extends Component {
     }
     this.setState(
       { measuresToShow: [...this.state.measuresToShow, item] }
+    )
+  };
+
+  toggleCountry = item => {
+    const idd = item.id;
+    if (this.state.countriesToShow.filter(item => item.id === idd).length) {
+      const items = this.state.countriesToShow.filter(item => item.id !== idd);
+      this.setState({ countriesToShow: items });
+      return;
+    }
+    this.setState(
+      { countriesToShow: [...this.state.countriesToShow, item] }
     )
   };
 
@@ -279,13 +299,23 @@ class App extends Component {
     ));
   };
 
+  renderCountries = () => {
+    const isCountryActive = this.state.countryList.map(item => (this.state.countriesToShow.includes(item)));
+    return this.state.countryList.map(item => (
+      <li
+        key={item.id}
+        className="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <button onClick={() => this.toggleCountry(item)} type="button" className={`btn ${isCountryActive[item.id - 2] ? "btn-success" : "btn-info"} btn-block`}> {item.name}  </button>
+      </li>
+    ));
+  };
+
   render() {
     const loading = this.state.graphLoading;
     return (
       <main className="content">
-
         <NavBar/>
-
         <div className="row">
           <div id="sect" className="col-sm-3">
             <div className="card p-4">
@@ -304,6 +334,7 @@ class App extends Component {
                 height={100}
                 width={100}
                 visible={this.state.graphLoading}
+                // visible={true}
               />
             </div>
           </div>
@@ -321,6 +352,18 @@ class App extends Component {
             </div>
           </div>
         </div>
+
+        <div className="row">
+          <div id="count" className="col-sm-3">
+            <div className="card p-4">
+                <h2 id="sector-title" className="text-black text-center"> Countries </h2>
+              <ul className="list-group list-group-flush">
+                {this.renderCountries()}
+              </ul>
+            </div>
+          </div>
+        </div>
+
       </main>
     );
   }
