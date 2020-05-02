@@ -27,21 +27,37 @@ body {
   margin-top: 30px;
 }
 
+#loady {
+  margin-top: 30px;
+  margin-left: 115px;
+}
+
 #sector-title {
   font-family: "Lato";
 }
 
+#im {
+  position: fixed;
+  float: inline-end;
+  top: 50%;
+  left: 50%;
+  margin-top: -285px;
+  margin-left: -390px;
+  width: 780px;
+}
+
+
+#g-graph {
+  margin-top: 25px;
+  margin-left: 100px;
+}
+
 #sect {
   float:left;
-  /* width: 100%; */
-  height: 500px;
-  overflow-y: scroll;
 }
 
 #meas {
   float:right;
-  height: 460px;
-  overflow-y: scroll;
 }
 
 .todo-title {

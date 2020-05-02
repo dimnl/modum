@@ -4,9 +4,13 @@ from rest_framework import viewsets
 from .serializers import CountrySerializer, SectorSerializer, MeasureSerializer
 from .models import Country, Sector, Measure
 
-# Test view.
+
 def index(request):
     return HttpResponse("Hello, world! You're at the dashboard index.")
+
+def graph(request):
+    # TODO call the python process to generate the graph.
+    return HttpResponse("Ok.")
 
 class CountryView(viewsets.ModelViewSet):
     serializer_class = CountrySerializer

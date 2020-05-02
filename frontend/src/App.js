@@ -171,13 +171,19 @@ import axios from "axios";
 //   }
 // }
 
+
+import Loader from 'react-loader-spinner'
 import NavBar from "./components/Navbar";
+import Graph from './graph.png';
+import Blank from './blank.png';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // modal: false,
+      graphRequested: false,
+      graphLoading : false,
       viewCompleted: false,
       activeItem: {
         id: 0,
@@ -236,6 +242,16 @@ class App extends Component {
     )
   };
 
+  sendGraphRequest = () => {
+    this.setState({ graphRequested: false });
+    this.setState({ graphLoading: true });
+    setTimeout(() => { // Test.
+      console.log('This will run after 2 seconds!')
+      this.setState({ graphLoading: false });
+      this.setState({ graphRequested: true });
+    }, 2000);
+  }
+
   renderSectors = () => {
     const isSectorActive = this.state.sectorList.map(item => (this.state.sectorsToShow.includes(item)));
     return this.state.sectorList.map(item => (
@@ -261,12 +277,13 @@ class App extends Component {
   };
 
   render() {
+    const loading = this.state.graphLoading;
     return (
       <main className="content">
 
         <NavBar/>
 
-        <div  className="row">
+        <div className="row">
           <div id="sect" className="col-sm-3">
             <div className="card p-4">
                 <h2 id="sector-title" className="text-black text-center"> Sectors </h2>
@@ -274,9 +291,24 @@ class App extends Component {
                 {this.renderSectors()}
               </ul>
             </div>
+            <button onClick={this.sendGraphRequest} id="g-graph" type="button" className="btn-link" disabled={loading}>
+               Generate Graph
+            </button>
+            <div id="loady">
+              <Loader
+                type="Puff"
+                color="#00BFFF"
+                height={100}
+                width={100}
+                visible={this.state.graphLoading}
+              />
+            </div>
           </div>
+        </div>        
+        <div>
+          <img id="im" src={`${this.state.graphRequested ? Graph : Blank}`}  alt="graph"/>
         </div>
-        <div  className="row">
+        <div className="row">
           <div id="meas" className="col-sm-3">
             <div className="card p-4">
                 <h2 id="sector-title" className="text-black text-center"> Measures </h2>
