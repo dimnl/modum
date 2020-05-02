@@ -185,18 +185,28 @@ class App extends Component {
         description: "",
       },
       sectorList: [],
-      sectorsToShow: []
+      sectorsToShow: [],
+      measureList: [],
+      measuresToShow: []
     };
   }
 
   componentDidMount() {
-    this.refreshList();
+    this.refreshSectorList();
+    this.refreshMeasureList();
   }
 
-  refreshList = () => {
+  refreshSectorList = () => {
     axios
       .get("http://localhost:8000/api/sector/")
       .then(res => this.setState({ sectorList: res.data }))
+      .catch(err => console.log(err));
+  };
+
+  refreshMeasureList = () => {
+    axios
+      .get("http://localhost:8000/api/measure/")
+      .then(res => this.setState({ measureList: res.data }))
       .catch(err => console.log(err));
   };
 
@@ -213,7 +223,20 @@ class App extends Component {
     )
   };
 
-  renderItems = () => {
+  toggleMeasure = item => {
+    // console.log(this.state.sectorsToShow);
+    const idd = item.id;
+    if (this.state.measuresToShow.filter(item => item.id === idd).length) {
+      const items = this.state.measuresToShow.filter(item => item.id !== idd);
+      this.setState({ measuresToShow: items });
+      return;
+    }
+    this.setState(
+      { measuresToShow: [...this.state.measuresToShow, item] }
+    )
+  };
+
+  renderSectors = () => {
     const isSectorActive = this.state.sectorList.map(item => (this.state.sectorsToShow.includes(item)));
     return this.state.sectorList.map(item => (
       <li
@@ -225,24 +248,44 @@ class App extends Component {
     ));
   };
 
+  renderMeasures = () => {
+    const isMeasureActive = this.state.measureList.map(item => (this.state.measuresToShow.includes(item)));
+    return this.state.measureList.map(item => (
+      <li
+        key={item.id}
+        className="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <button onClick={() => this.toggleMeasure(item)} type="button" className={`btn ${isMeasureActive[item.id - 1] ? "btn-success" : "btn-info"} btn-block`}> {item.description}  </button>
+      </li>
+    ));
+  };
+
   render() {
     return (
       <main className="content">
 
         <NavBar/>
 
-        <div className="row">
-          <div className="col-sm-3">
+        <div  className="row">
+          <div id="sect" className="col-sm-3">
             <div className="card p-4">
                 <h2 id="sector-title" className="text-black text-center"> Sectors </h2>
-              {/* {this.renderTabList()} */}
               <ul className="list-group list-group-flush">
-                {this.renderItems()}
+                {this.renderSectors()}
               </ul>
             </div>
           </div>
         </div>
-
+        <div  className="row">
+          <div id="meas" className="col-sm-3">
+            <div className="card p-4">
+                <h2 id="sector-title" className="text-black text-center"> Measures </h2>
+              <ul className="list-group list-group-flush">
+                {this.renderMeasures()}
+              </ul>
+            </div>
+          </div>
+        </div>
       </main>
     );
   }

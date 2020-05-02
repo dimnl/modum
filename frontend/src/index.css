@@ -31,6 +31,19 @@ body {
   font-family: "Lato";
 }
 
+#sect {
+  float:left;
+  /* width: 100%; */
+  height: 500px;
+  overflow-y: scroll;
+}
+
+#meas {
+  float:right;
+  height: 460px;
+  overflow-y: scroll;
+}
+
 .todo-title {
   cursor: pointer;
 }
