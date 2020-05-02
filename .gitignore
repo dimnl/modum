@@ -45,6 +45,6 @@ Thumbs.db
 # Miscellaneous
 *.min.css
 *.min.css.map
-*.csv
+#*.csv
 *.iml
 *.box
