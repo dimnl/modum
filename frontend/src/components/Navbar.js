@@ -7,7 +7,7 @@ class NavBar extends Component {
     return (
         <Navbar bg="dark" variant="dark">
 
-        <Navbar.Brand href="localhost:3000"> Modum </Navbar.Brand>
+        <Navbar.Brand href="localhost:3000"> Modum - your aid in decission making.  </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         

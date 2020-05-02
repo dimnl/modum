@@ -4,7 +4,7 @@ from django.db import models
 class Country(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField()
-    trust_index = models.FloatField(default=0.00)
+    focus = models.CharField(max_length=120, default="")
 
     def _str_(self):
         return self.name

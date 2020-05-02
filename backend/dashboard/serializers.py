@@ -4,7 +4,7 @@ from .models import Country, Sector, Measure
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ('id', 'name', 'description', 'trust_index')
+        fields = ('id', 'name', 'description', 'focus')
 
 class SectorSerializer(serializers.ModelSerializer):
     class Meta:
