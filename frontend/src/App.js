@@ -245,8 +245,11 @@ class App extends Component {
   sendGraphRequest = () => {
     this.setState({ graphRequested: false });
     this.setState({ graphLoading: true });
-    setTimeout(() => { // Test.
-      console.log('This will run after 2 seconds!')
+    setTimeout(() => { // TODO - querry backend for the image.
+      axios
+      .get("http://localhost:8000/dashboard/graph")
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
       this.setState({ graphLoading: false });
       this.setState({ graphRequested: true });
     }, 2000);
