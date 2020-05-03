@@ -255,24 +255,27 @@ class App extends Component {
     if (this.state.countriesToShow.filter(item => item.id === idd).length) {
       const items = this.state.countriesToShow.filter(item => item.id !== idd);
       this.setState({ countriesToShow: items });
+      var n = item.name.indexOf("-");
+      item.name = item.name.substring(0, n);
       return;
     }
     this.setState(
       { countriesToShow: [...this.state.countriesToShow, item] }
     )
+    item.name += " - " + item.focus;
   };
 
   sendGraphRequest = () => {
     this.setState({ graphRequested: false });
     this.setState({ graphLoading: true });
-    setTimeout(() => { // TODO - querry backend for the image.
+    setTimeout(() => {
       axios
       .get("http://localhost:8000/dashboard/graph")
       .then(res => console.log(res.data))
       .catch(err => console.log(err));
       this.setState({ graphLoading: false });
       this.setState({ graphRequested: true });
-    }, 2000);
+    }, 5000);
   }
 
   renderSectors = () => {
@@ -294,7 +297,7 @@ class App extends Component {
         key={item.id}
         className="list-group-item d-flex justify-content-between align-items-center"
       >
-        <button onClick={() => this.toggleMeasure(item)} type="button" className={`btn ${isMeasureActive[item.id - 1] ? "btn-success" : "btn-info"} btn-block`}> {item.description}  </button>
+        <button onClick={() => this.toggleMeasure(item)} type="button" className={`btn ${isMeasureActive[item.id - 1] ? "btn-success" : "btn-primary"} btn-block`}> {item.description}  </button>
       </li>
     ));
   };
@@ -306,7 +309,7 @@ class App extends Component {
         key={item.id}
         className="list-group-item d-flex justify-content-between align-items-center"
       >
-        <button onClick={() => this.toggleCountry(item)} type="button" className={`btn ${isCountryActive[item.id - 2] ? "btn-success" : "btn-info"} btn-block`}> {item.name}  </button>
+        <button onClick={() => this.toggleCountry(item)} type="button" className={`btn ${isCountryActive[item.id - 2] ? "btn-warning" : "btn-secondary"} btn-block`}> {item.name}  </button>
       </li>
     ));
   };
@@ -324,7 +327,7 @@ class App extends Component {
                 {this.renderSectors()}
               </ul>
             </div>
-            <button onClick={this.sendGraphRequest} id="g-graph" type="button" className="btn-link" disabled={loading}>
+            <button onClick={this.sendGraphRequest} id="g-graph" type="button" className="btn-light" disabled={loading}>
                Generate Graph
             </button>
             <div id="loady">
@@ -334,11 +337,10 @@ class App extends Component {
                 height={100}
                 width={100}
                 visible={this.state.graphLoading}
-                // visible={true}
               />
             </div>
           </div>
-        </div>        
+        </div>
         <div>
           <img id="im" src={`${this.state.graphRequested ? Graph : Blank}`}  alt="graph"/>
         </div>

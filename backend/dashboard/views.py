@@ -3,20 +3,20 @@ from django.http import HttpResponse
 from rest_framework import viewsets
 from .serializers import CountrySerializer, SectorSerializer, MeasureSerializer
 from .models import Country, Sector, Measure
-import subprocess
+import subprocess, time
 
 def index(request):
     return HttpResponse("Hello, world! You're at the dashboard index.")
 
 def graph(request):
-    # TODO call the python process to generate the graph.
-    path = "../frontend/src/"
-    process = subprocess.run(['touch', 'test.png'],
-                         stdout=subprocess.PIPE,
-                         universal_newlines=True)
-    process = subprocess.run(['mv', 'test.png', '../frontend/src/'],
-                         stdout=subprocess.PIPE,
-                         universal_newlines=True)
+    # path = "../frontend/src/"
+    # process = subprocess.run(['python3', '../correlation/StockPredict.py'],
+    #                      stdout=subprocess.PIPE,
+    #                      universal_newlines=True)
+    # process = subprocess.run(['mv', 'graph.png', '../frontend/src/'],
+    #                      stdout=subprocess.PIPE,
+    #                      universal_newlines=True)
+    # time.sleep(5)
     return HttpResponse("Ok.")
 
 class CountryView(viewsets.ModelViewSet):

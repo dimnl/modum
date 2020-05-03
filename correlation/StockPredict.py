@@ -16,8 +16,8 @@ from matplotlib import pyplot as plt
 
 
 # Loading data
-measures = pd.read_csv("../data/measures_database.csv", sep=';', encoding='utf8')
-stock_it = pd.read_csv("../data/FTSE_MIB_large.csv", sep='\t', encoding='utf7')
+measures = pd.read_csv("/Users/alex/Desktop/ultrahack/modum/data/measures_database.csv", sep=';', encoding='utf8')
+stock_it = pd.read_csv("/Users/alex/Desktop/ultrahack/modum/data/FTSE_MIB_large.csv", sep='\t', encoding='utf7')
 
 
 # In[23]:
@@ -172,7 +172,7 @@ plt.xticks(rotation=25)
 plt.legend()
 
 plt.rcParams['savefig.dpi'] = 120
-plt.savefig('stock_price_measure_taken.png')
+plt.savefig('graph.png')
 
 
 # In[ ]:
