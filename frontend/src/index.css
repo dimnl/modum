@@ -34,6 +34,14 @@ body {
   margin-left: 115px; */
 }
 
+#loady2 {
+  position: absolute;
+  margin-top: 550px;
+  margin-left: 700px;
+  /* margin-top: 30px;
+  margin-left: 115px; */
+}
+
 #sector-title {
   font-family: "Lato";
 }
@@ -44,15 +52,37 @@ body {
   float: inline-end;
   top: 50%;
   left: 50%;
-  margin-top: -285px;
+  margin-top: -289px;
+  margin-left: -390px;
+  width: 780px;
+}
+
+#im2 {
+  z-index: -1;
+  position: absolute;
+  float: inline-end;
+  top: 50%;
+  left: 50%;
+  margin-top: 305px;
   margin-left: -390px;
   width: 780px;
 }
 
 #g-graph {
-  margin-top: 25px;
-  margin-left: 100px;
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 8px;
+  white-space: nowrap;
 }
+
+#i-graph {
+  /* position: relative; */
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 180px;
+  /* margin-right: 220px; */
+}
+
 
 #sect {
   float:left;
@@ -69,6 +99,7 @@ body {
 #count {
   margin-top: 640px;
 }
+
 
 .completed-todo {
   text-decoration: line-through;

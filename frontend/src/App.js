@@ -176,6 +176,7 @@ import Loader from 'react-loader-spinner'
 import NavBar from "./components/Navbar";
 import Graph from './graph.png';
 import Blank from './blank.png';
+import SIR from "./SIR.png"
 
 class App extends Component {
   constructor(props) {
@@ -185,6 +186,8 @@ class App extends Component {
       graphRequested: false,
       graphLoading : false,
       viewCompleted: false,
+      sirRequested: false,
+      sirLoading: false,
       activeItem: {
         id: 0,
         name: "",
@@ -278,6 +281,19 @@ class App extends Component {
     }, 5000);
   }
 
+  sendSirRequest = () => {
+    this.setState({ sirRequested: false });
+    this.setState({ sirLoading: true });
+    setTimeout(() => {
+      axios
+      .get("http://localhost:8000/dashboard/graph")
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
+      this.setState({ sirLoading: false });
+      this.setState({ sirRequested: true });
+    }, 2500);
+  }
+
   renderSectors = () => {
     const isSectorActive = this.state.sectorList.map(item => (this.state.sectorsToShow.includes(item)));
     return this.state.sectorList.map(item => (
@@ -315,7 +331,8 @@ class App extends Component {
   };
 
   render() {
-    const loading = this.state.graphLoading;
+    const g_loading = this.state.graphLoading;
+    const sir_loading = this.state.sirLoading;
     return (
       <main className="content">
         <NavBar/>
@@ -327,9 +344,19 @@ class App extends Component {
                 {this.renderSectors()}
               </ul>
             </div>
-            <button onClick={this.sendGraphRequest} id="g-graph" type="button" className="btn-light" disabled={loading}>
-               Generate Graph
-            </button>
+            
+            <div id="g-graph">
+              <button onClick={this.sendGraphRequest} id="g-graph" type="button" className="btn-light" disabled={g_loading}>
+                Forecast economy
+              </button>
+            </div>
+            
+            <div id="i-graph">
+              <button onClick={this.sendSirRequest} type="button" className="btn-light" disabled={sir_loading}>
+                Forecast pandemic
+              </button>
+            </div>
+
             <div id="loady">
               <Loader
                 type="Puff"
@@ -337,6 +364,18 @@ class App extends Component {
                 height={100}
                 width={100}
                 visible={this.state.graphLoading}
+                // visible={true}
+              />
+            </div>
+
+            <div id="loady2">
+              <Loader
+                type="Circles"
+                color="#00BFFF"
+                height={100}
+                width={100}
+                visible={this.state.sirLoading}
+                // visible={true}
               />
             </div>
           </div>
@@ -344,6 +383,12 @@ class App extends Component {
         <div>
           <img id="im" src={`${this.state.graphRequested ? Graph : Blank}`}  alt="graph"/>
         </div>
+
+        <div>
+          <img id="im2" src={`${this.state.sirRequested ? SIR : Blank}`}  alt="graph2"/>
+          {/* <img id="im2" src={SIR}  alt="graph"/> */}
+        </div>
+
         <div className="row">
           <div id="meas" className="col-sm-3">
             <div className="card p-4">
@@ -359,13 +404,13 @@ class App extends Component {
           <div id="count" className="col-sm-3">
             <div className="card p-4">
                 <h2 id="sector-title" className="text-black text-center"> Countries </h2>
+                <h6 className="text-black text-center"> (click for point of focus) </h6>
               <ul className="list-group list-group-flush">
                 {this.renderCountries()}
               </ul>
             </div>
           </div>
         </div>
-
       </main>
     );
   }
